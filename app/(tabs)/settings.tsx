@@ -1,27 +1,43 @@
-import useTheme from '@/hooks/useTheme';
-import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { createSettingsStyles } from "@/assets/styles/settings.styles";
+import DangerZone from "@/components/DangerZone";
+import Preferences from "@/components/Preferances";
+import ProgressStats from "@/components/ProgressStats";
+import useTheme from "@/hooks/useTheme";
+import { Ionicons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 
-const settings = () => {
-  const {toggleDarkMode} = useTheme();
+import { ScrollView, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+
+const SettingsScreen = () => {
+  const { colors } = useTheme();
+
+  const settingsStyles = createSettingsStyles(colors);
+
   return (
-    <View style={styles.container}>
+    <LinearGradient colors={colors.gradients.background} style={settingsStyles.container}>
+      <SafeAreaView style={settingsStyles.safeArea}>
+        {/* HEADER */}
+        <View style={settingsStyles.header}>
+          <View style={settingsStyles.titleContainer}>
+            <LinearGradient colors={colors.gradients.primary} style={settingsStyles.iconContainer}>
+              <Ionicons name="settings" size={28} color="#ffffff" />
+            </LinearGradient>
+            <Text style={settingsStyles.title}>Settings</Text>
+          </View>
+        </View>
 
-      <TouchableOpacity onPress={toggleDarkMode}>
-        
-      <Text>Change Theme</Text>
-      </TouchableOpacity>
-    </View>
-  )
-}
-
-export default settings;
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  }
-})
+        <ScrollView
+          style={settingsStyles.scrollView}
+          contentContainerStyle={settingsStyles.content}
+          showsVerticalScrollIndicator={false}
+        >
+          <ProgressStats />
+          <Preferences />
+          <DangerZone />
+        </ScrollView>
+      </SafeAreaView>
+    </LinearGradient>
+  );
+};
+export default SettingsScreen;
