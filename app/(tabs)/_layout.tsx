@@ -1,35 +1,48 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
+import useTheme from "@/hooks/useTheme"
+import { Ionicons } from "@expo/vector-icons"
+import { Tabs } from 'expo-router'
+import React from 'react'
 
-import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
-
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
+const _layout = () => {
+    const {colors} = useTheme();
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
-      }}>
-      <Tabs.Screen
-        name="index"
+    <Tabs screenOptions={{
+        tabBarActiveTintColor: colors.primary,
+        tabBarStyle:{
+            backgroundColor: colors.bg,
+            borderTopWidth: 1,
+            borderTopColor: colors.border,
+            height: 90,
+            paddingBottom: 30,
+            paddingTop: 10
+
+        },
+        tabBarLabelStyle: {
+            fontSize: 12,
+            fontWeight: "800"
+        },
+        headerShown: false
+    }}>
+        <Tabs.Screen
+        name='index'
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+            title: "Todos",
+            tabBarIcon : ({color, size}) => <Ionicons name="flash-outline" size={size} color={color}/>,
         }}
-      />
-      <Tabs.Screen
-        name="explore"
+        />
+
+        <Tabs.Screen 
+        name='settings'
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+            title: "Settings",
+            tabBarIcon : ({color, size}) => <Ionicons name="settings" size={size} color={color}/>,
         }}
-      />
+        />
+
+
+
     </Tabs>
-  );
+  )
 }
+
+export default _layout 
